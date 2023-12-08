@@ -1,21 +1,31 @@
 const readline = require('readline');
 
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 });
 
-function findLongestRepetition(sequence) {
-    let maxLength = 0, currentLength = 1;
-    
-    for (let i = 1; i < sequence.length; i++) {
-        sequence[i] === sequence[i - 1] ? currentLength++ : (maxLength = Math.max(maxLength, currentLength), currentLength = 1);
+function findMaxSubarraySum(arr) {
+    if (!arr || arr.length === 0) {
+        return "Array kosong atau tidak valid.";
     }
 
-    return Math.max(maxLength, currentLength);
+    let maxSum = arr[0];
+    let currentSum = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        currentSum = Math.max(arr[i], currentSum + arr[i]);
+        maxSum = Math.max(maxSum, currentSum);
+    }
+
+    return "Maximum Sum: " + maxSum;
 }
 
-rl.question('Masukkan urutan DNA: ', (input) => {
-  console.log('karakter pengulangan  terpanjang: ' + findLongestRepetition(input));
-  rl.close();
+rl.question('Masukkan elemen array (pisahkan dengan spasi): ', (input) => {
+    const inputArray = input.split(' ').map(Number);
+
+    const result = findMaxSubarraySum(inputArray);
+    console.log("Output:", result);
+
+    rl.close();
 });
